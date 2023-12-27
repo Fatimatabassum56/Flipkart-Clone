@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="icon" href="https://static-assets-web.flixcart.com/www/promos/new/20150528-140547-favicon-retina.ico" />
+    <style>
+        /* Add your styling here */
+        .item-card {
+        
+    background-color: rgb(255, 255, 255);
+    padding: 16px;
+    height: 200vh;
+    margin: auto;
+    display: flex;
+    position: relative;
+    margin-top: 1px;
+    box-shadow: 1px solid gray;
+}
+        
+
+        .item-details {
+            flex-grow: 1;
+            margin-right: 20px;
+        }
+
+        .quantity {
+            margin-right: 10px;
+        }
+
+        .item-actions>.btn1{
+            cursor: pointer;
+            border: 1px solid black;
+            color: black;
+            border-radius: 42px;
+            width: 25px;
+            height: 20px;
+            text-align: center;
+
+        
+        }
+
+        .item-img {
+            position: relative;
+            overflow: hidden;
+            
+        }
+
+        .item-img img {
+            margin-top: 20px;
+          
+            transition: transform 0.3s ease;
+        }
+
+        .item-img:hover img {
+            transform: scale(1.2);
+        }
+        #catContainer{
+            margin-left: 100px;
+        }
+        .item-actions{
+            text-align: right;
+            position: relative;
+            right: 10px;
+            top: 330px;
+            display: flex;
+            gap: 10px;
+        }
+        .qtn{
+            width: 40px;
+            height: 18px;
+            border: 1px solid black;
+            text-align: center;
+        }
+        .action-buttons{
+            text-align: right;
+            position: relative;
+            right: 00px;
+            top: 270px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-buttons>.btn{
+            cursor: pointer;
+            background-color: orange;
+            color: black;
+            border: none;
+        
+            width: 120px;
+            height: 40px;
+            text-align: center;
+
+        
+        }
+        .action-buttons>.btn2{
+            cursor: pointer;
+            background-color: rgb(225, 188, 119);
+            color: black;
+            border: none;
+        
+            width: 120px;
+            height: 40px;
+            text-align: center;
+
+        
+        }
+        .price{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+        }
+        .priceDetails{
+            position: relative;
+            right: 285px;
+            background: white;
+            height: 250px;
+            width: 500px;
+            padding: 10px;
+            box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.1)
+        }
+
+      
+    </style>
+    <link rel="stylesheet" href="style/Home.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="index.html"><div class="log"><img src="flipkart white.png" alt="" style="width: 50px; height: 20px;"></div></a>
+                <div class="search-container">
+                    <input id="search" type="text" name="search" placeholder="Search">
+                </div>
+            </div>
+            <div class="nav-right">
+                <div>Become a Seller</div>
+                <div>More</div>
+                <div> <a href="listofitemsincart.html" style="text-decoration: none;">Cart
+                    <span id="cardCount" style="background-color: red;border-radius: 50%;padding: 2px 4px;"></span></a>
+                </div>
+            </div>
+        </div>
+        <div class="hamburger-menu">=</div>
+    </nav>
+    
+
+<!-- Container to display the items -->
+<div id="catContainer"></div>
+
+<script>
+    
+    window.onload = function () {
+        let catContainer = document.getElementById('catContainer');
+        
+
+        // Function to update local storage and re-render the items
+        function updateLocalStorage(data) {
+            localStorage.setItem('dataCart', JSON.stringify(data));
+            renderItems(data);
+        }
+        let qtn=1;
+        // Function to render items
+        function renderItems(data) {
+            catContainer.innerHTML = ''; // Clear existing content
+             
+            // Map the data to HTML elements
+            let items = data.map((item) => {
+                return `
+                    <div class="items-card">
+                        <div class="item-img">
+                            <img src="${item.thumbnail}" alt="">
+                        </div>
+                        <div class="item-details">
+                            <h3>${item.title}</h3>
+                            
+                            
+                            <div class="price">
+                            <h1>₹${Math.round(item.price*qtn-item.price*qtn*(item.discountPercentage/100))}</h1>
+                            <h3><strike>${item.price * qtn}</strike></h3>
+                            <div>off ${item.discountPercentage}%</div>
+                            
+                            </div>
+
+                            <div>Rating:${item.rating}</div>
+                            
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn1" onclick="incrementQuantity(${item.id})">+</button>
+                            <div class="qtn"> ${qtn}</div>
+                            <button class="btn1" onclick="decrementQuantity(${item.id})">-</button></div>
+                            <div class="action-buttons">
+                            <button class="btn2" onclick="removeFromCart(${item.id})">Remove</button>
+                            <button class="btn" onclick="buyNow(${item.id})">Buy Now</button>
+                        </div>
+                        <div class="priceDetails"> 
+                            <h1>Price Details</h1><hr>
+                            <pre>Price:(${qtn}Items)        ${item.price*qtn}</pre>
+                            <pre>DisCount              -${Math.round(item.price*qtn*(item.discountPercentage/100))} </pre>
+                            <pre>Delivery Charges:     Free</pre><hr>
+                           <h2> <pre>Total Amount:  ₹${Math.round(item.price*qtn-item.price*qtn*(item.discountPercentage/100))}</pre></h2>
+                            </div>
+                            </div>
+                            
+
+                    </div>`;
+            });
+
+            // Set the HTML content of catContainer
+            catContainer.innerHTML += items.join('');
+        }
+    
+
+        // Function to increment quantity
+        window.incrementQuantity = function (itemId) {
+        
+            let dataLS = JSON.parse(localStorage.getItem('dataCart'));
+            let index = dataLS.findIndex(item => item.id === itemId);
+
+            if (index !== -1) {
+                qtn += 1;
+                updateLocalStorage(dataLS);
+            }
+        }
+
+        // Function to decrement quantity or remove if quantity becomes zero
+        window.decrementQuantity = function (itemId) {
+            let dataLS = JSON.parse(localStorage.getItem('dataCart'));
+            let index = dataLS.findIndex(item => item.id === itemId);
+
+            if (index !== -1) {
+                qtn-= 1;
+
+                // Remove item if quantity becomes zero
+                if (qtn=== 0) {
+                    dataLS.splice(index, 1);
+                }
+
+                updateLocalStorage(dataLS);
+            }
+        }
+
+        // Function to remove item from cart
+        window.removeFromCart = function (itemId) {
+            let dataLS = JSON.parse(localStorage.getItem('dataCart'));
+            let index = dataLS.findIndex(item => item.id === itemId);
+
+            if (index !== -1) {
+                dataLS.splice(index, 1);
+                updateLocalStorage(dataLS);
+            }
+        }
+
+        // Function to simulate Buy Now action
+        window.buyNow = function (itemId) {
+            alert(`Buying item with ID: ${itemId}`);
+            // You can add more logic for the Buy Now action here
+        }
+
+        // Check if dataLS is not null or undefined before trying to access its length
+        if (localStorage.getItem('dataCart')) {
+            let dataLS = JSON.parse(localStorage.getItem('dataCart'));
+            renderItems(dataLS);
+        } else {
+            // Handle the case when dataLS is null or undefined
+            console.error('localStorage dataCart is empty or not valid JSON');
+        }
+    }
+</script>
+
+</body>
+</html>

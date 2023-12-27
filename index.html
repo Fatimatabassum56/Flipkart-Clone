@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <!--font awesome-->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+     integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+     crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        }
+
+        body{
+            background-color: aliceblue;
+        }
+        nav{
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            background-color: white;
+            height: 80px;
+            width: 100vw;
+        }
+        input{
+            height: 40px;
+            width: 380px;
+            border: none;
+            background-color: aliceblue;
+            text-align: center;
+            border-radius: 5px;
+        }
+       
+        .imageSliderContainer{
+            position: relative;
+            width: calc(100vw-15px);
+            height: 280px;
+            margin: 8px  15px 15px;
+            background-color: white;
+        }
+        /******imageSliderContainer*******/
+
+.imageSliderBtn{
+    position: absolute;
+    /* z-index: 10; */
+    width: 99%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+.imageSliderBtn button{
+    padding: 30px 12px;
+    background-color: white;
+    border:none;
+    outline: none;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+    font-size: 30px;
+    /* border-radius: 5px; */
+    z-index: 13;
+}
+.imageSliderBtn button:nth-child(odd){
+    border-radius: 0px 3px 3px 0px;
+    margin-left: 7px;
+  
+}
+.imageSliderBtn button:nth-child(even){
+    border-radius: 3px 0px 0px 3px;
+
+}
+
+
+.imageSliderList{
+    position: absolute;
+    /* top:15px; */
+    z-index: 11;
+    width: calc(100vw-15px);
+    height: 280px;
+    display: flex;
+    overflow: hidden;
+    
+}
+.imageSliderItem{
+    min-width: 100%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    /* transform: translateX(-400%); */
+    transition: transform 0.5s;
+}
+.imageSliderItem img{
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    transform: scale(1.3);
+}
+.categories{
+            margin-top: 8px;
+            background-color: white;
+            width: calc(100vw-15px);
+            height: 140px;
+            margin: 8px  15px 15px;
+            display: flex;
+            justify-content: space-evenly;
+            /* align-items: center; */
+            /* text-align: center; */
+            align-items: end;
+            padding-bottom: 20px;
+            font-weight: 500;
+            cursor: pointer;
+
+        }
+.image img{
+    height: 80px;
+    width: 80px;
+    cursor: pointer;
+    border-radius: 50px;
+}
+.name-cat p{
+    opacity: 0.7;
+}
+.displayProducts{
+    width: calc(100vw-15px);
+    height: auto;
+    margin: 8px 15px 20px;
+    background: white;
+    
+
+}
+.productcards{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+
+}
+.cards{
+    gap: 10px;
+    border: 1px solid rgb(240, 236, 236);
+    /* box-shadow: rgba(0, 0, 0, 0.1) 0px 6px 20px; */
+    border-radius: 10px;
+    width: 240px;
+    height: 330px;
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+
+
+
+
+}
+.image-product img{
+    width:90%;
+    height:200px;
+
+    
+
+
+}
+a{
+    text-decoration: none;
+}
+.description{
+    color: black;
+    margin-top: 10px;
+    line-height: 20px;
+}
+#Search{
+    position: relative;
+    right: 68px;
+}
+#searchicon{
+    position: relative;
+    top: 7px;
+    left: 10px;
+
+}
+a{
+    text-decoration: none;
+}
+
+
+    </style>
+    <link rel="icon" href="https://static-assets-web.flixcart.com/www/promos/new/20150528-140547-favicon-retina.ico" />
+</head>
+<body>
+    <div class="container">
+
+
+
+        
+        <nav>
+            <div class="log"><img src="logo.svg" alt=""></div>
+            <div><input type="text" placeholder="Search For products brands and More" id="search"><i id="searchicon" class="fa-solid fa-magnifying-glass"></i></div>
+            <!-- <div class="login-icon"></div><div class="login">Login</div> -->
+            <span
+            style="font-size: 15px; font-family: sans-serif; padding-left: 12px"
+            >
+            <span>
+                <img
+                  src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/profile-815786.svg"
+                  alt="Sign in" />
+              </span>
+            <select name="forma" onchange="location = this.value;" style=" border: none; height: 35px; width: 80px;">
+              <option value="" style="background-color: white;">Profile</option>
+              <option value="signup.html" style="background-color: white;">Signup</option>
+              <option value="signin.html"style="background-color: white;">Signin</option>
+             </select>
+            
+            </span>
+           <a href="listofitemsincart.html"><div class="cart" >Cart<img
+                src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/header_cart-eed150.svg"
+                alt="become a seller" /> <span id="cardCount" style="background-color: rgb(209, 60, 60);border-radius: 50%;position: relative; top: -24px;right: 28px;">2+</span></i></div></a>
+           
+                <span>
+                    <img
+                      src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/Store-9eeae2.svg"
+                      alt="become a seller" />
+                  </span>     <div class="become-seller-icon"></div><div class="seller">Become a Seller</div>
+            <a href="index2.html"><div>All Products</div></a>
+            <div>...</div>
+        </nav>
+        <!-- features -->
+        <div class="categories">
+            <!-- <div class="diff-cat">
+                <div class="image">
+                    <img src="download.jpeg" alt="">
+                </div>
+                <div class="name-cat">
+                    <p>Mobile</p>
+                </div>
+                </div>
+                <div class="diff-cat">
+                    
+                    <div class="name-cat">
+                        <p>Mobile</p>
+                    </div> 
+            </div> -->
+
+        </div> 
+        <div class="image" style="position: absolute; top: 100px; display: flex; justify-content: space-evenly; gap: 130px;">
+            <img src="mini3.webp" alt="" style="position: relative; left: 120px;">
+            <img src="mini4.webp" alt="" style="position: relative; left: 90px;">
+            <img src="mini10.webp" alt="" style="position: relative; left: 57px;">
+            <img src="mini9.webp" alt="" style="position: relative; right: -20px;">
+            <img src="mini7.webp" alt="" style="position: relative; right: 15px;">
+            <img src="mini8.webp" alt="" style="position: relative; right: 25px;">
+        </div>
+         <!--image slider-->
+         <div class="imageSliderContainer">
+            <div class="imageSliderBtn">
+                <button id="preve_imageBtn">
+                    <i class="fa-solid fa-angle-left"></i>
+                </button>
+                <button id="next_imageBtn">
+                    <i class="fa-solid fa-angle-right"></i>
+                </button>
+            </div>
+
+            <div class="imageSliderList">
+
+            </div>
+        </div>
+        <div class="displayProducts">
+            <div class="topdeals">
+                <h2 style="margin: 20px; margin-top: 40px;" >Top Deals</h2>
+            </div>
+            <div class="productcards">
+                <!-- <div class="cards">
+                    <div class="image-product">
+                    <img src="download.jpeg" alt="">
+                </div>
+                <div class="description">
+                    <p>hello</p>
+                </div>
+                <div class="discount"><h4>45%</h4></div>
+        
+        </div>
+        <div class="cards">
+            <div class="image-product">
+            <img src="download.jpeg" alt="">
+        </div>
+        <div class="description">
+            <p>hello</p>
+        </div>
+        <div class="discount"></div>
+
+</div> -->
+        </div>
+        </div>
+    </div>
+   
+    <script type="module" src="javascript.js">
+        
+    </script>
+</body>
+</html>

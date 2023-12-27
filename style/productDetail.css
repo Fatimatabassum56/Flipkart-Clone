@@ -1,0 +1,67 @@
+.prodDetails-cont{
+    background-color: rgb(255, 255, 255);
+    padding: 16px;
+    max-width: 1366px;
+    height: 200vh;
+    min-width: 1128px;
+    margin: auto;
+    display: flex;
+    position: relative;
+    margin-top: 1px;
+}
+
+.image-cont{
+    top: 121px;
+    width: 35%;
+}
+
+.detail-cont{
+    position: relative;
+    width: 60%;
+    display: flex;
+    align-items: center;
+    right: 25%;
+    bottom: 9%;
+}
+.detail-con, button{
+    margin-top: 10px;
+    margin-left: 10px;
+    font-family: 'Poppins', sans-serif;
+    width: 150px;
+    height: 40px;
+    background-color: rgb(223, 193, 137);
+    border: none;
+}
+.detail-con, button:hover{
+    background: orange;
+}
+
+
+
+.image-cont{
+    display: flex;
+    gap: 10px;
+}
+
+.sub-imgs{
+    display: flex;
+    flex-direction: column
+}
+
+.single-sub-img{
+    width: 80px;
+    height: 80px;
+}
+.single-Main-img{
+    height: 283px;
+    width: 408px;
+}
+.para{
+
+    position: relative;
+    right: 125px;
+}
+#review-container{
+    position: relative;
+
+}
