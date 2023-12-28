@@ -151,7 +151,7 @@
 <div id="catContainer"></div>
 
            
-          <script>
+          <!-- <script>
     window.onload = function () {
         let catContainer = document.getElementById('catContainer');
          // Function to update local storage and re-render the items
@@ -161,24 +161,24 @@
   let dataLS = JSON.parse(localStorage.getItem('dataCart')) || [];
   
   // New key and value to be added
-  let newKey = 'qtn';
-  let newValue = 1;
+//   let newKey = 'qtn';
+//   let newValue = 1;
   
   // Iterate through each object in the array
-  dataLS.forEach(obj => {
-      // Add the new key-value pair to each object
-      obj[newKey] = newValue;
-  });
+//   dataLS.forEach(obj => {
+//       // Add the new key-value pair to each object
+//       obj[newKey] = newValue;
+//   });
   
   // Update the local storage with the modified data
-  localStorage.setItem('dataCart', JSON.stringify(data));
+  localStorage.setItem('dataCart', JSON.stringify(dataLS));
   
   // Log the updated data
   console.log(dataLS);
   
   
   
-              renderItems(data);
+              renderItems(dataLS);
           }
 
 
@@ -231,9 +231,134 @@
         }
 
         // Function to increment quantity
-        window.incrementQuantity = function (index) {
+        // Assuming there is a function named updateLocalStorage that updates the local storage
+function updateLocalStorage(data) {
+    localStorage.setItem('dataCart', JSON.stringify(data));
+}
+
+window.incrementQuantity = function (index) {
+    let dataLS = JSON.parse(localStorage.getItem('dataCart')) || [];
+
+    // Check if index is valid
+    if (index >= 0 && index < dataLS.length) {
+        // Increment quantity for the selected item
+        dataLS[index].qtn = (dataLS[index].qtn || 0) + 1;
+
+        // Update local storage and re-render
+        updateLocalStorage(dataLS);
+    }
+};
+
+        // Function to decrement quantity or remove if quantity becomes zero
+        window.decrementQuantity = function (index) {
             let dataLS = JSON.parse(localStorage.getItem('dataCart'));
 
+            // Decrement quantity for the selected item
+            dataLS[index].qtn -= 1;
+
+            // Remove item if quantity becomes zero
+            if (dataLS[index].qtn === 0) {
+                dataLS.splice(index, 1);
+            }
+
+            // Update local storage and re-render
+            updateLocalStorage(dataLS);
+        }
+
+        // Function to remove item from cart
+        window.removeFromCart = function (itemId) {
+            let dataLS = JSON.parse(localStorage.getItem('dataCart'));
+            let index = dataLS.findIndex(item => item.id === itemId);
+
+            if (index !== -1) {
+                dataLS.splice(index, 1);
+                updateLocalStorage(dataLS);
+            }
+        }
+
+        // Function to simulate Buy Now action
+        window.buyNow = function (itemId) {
+            alert(`Buying item with ID: ${itemId}`);
+            // You can add more logic for the Buy Now action here
+        }
+
+        // Check if dataLS is not null or undefined before trying to access its length
+        if (localStorage.getItem('dataCart')) {
+            let dataLS = JSON.parse(localStorage.getItem('dataCart'));
+            renderItems(dataLS);
+        } else {
+            // Handle the case when dataLS is null or undefined
+            console.error('localStorage dataCart is empty or not valid JSON');
+        }
+    }
+</script> -->
+<script>
+
+
+
+
+    
+
+    window.onload = function () {
+        let catContainer = document.getElementById('catContainer');
+
+        // Function to update local storage and re-render the items
+        function updateLocalStorage(data) {
+            localStorage.setItem('dataCart', JSON.stringify(data));
+            renderItems(data);
+        }
+      
+
+        // Function to render items
+        function renderItems(data) {
+            catContainer.innerHTML = ''; // Clear existing content
+
+            // Map the data to HTML elements
+            let items = data.map((item, index) => {
+                return `
+                    <div class="items-card">
+                        <div class="item-img">
+                            <img src="${item.thumbnail}" alt="">
+                        </div>
+                        <div class="item-details">
+                            <h3>${item.title}</h3>
+
+                            <div class="price">
+                                <h1>₹${Math.round(item.price * item.qtn - item.price * item.qtn * (item.discountPercentage / 100))}</h1>
+                                <h3><strike>${item.price * item.qtn}</strike></h3>
+                                <div>off ${item.discountPercentage}%</div>
+                            </div>
+
+                            <div>Rating:${item.rating}</div>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn1" onclick="incrementQuantity(${index})">+</button>
+                            <div class="qtn"> ${item.qtn}</div>
+                            <button class="btn1" onclick="decrementQuantity(${index})">-</button>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn2" onclick="removeFromCart(${item.id})">Remove</button>
+                            <button class="btn" onclick="buyNow(${item.id})">Buy Now</button>
+                        </div>
+                        <div class="priceDetails">
+                            <h1>Price Details</h1><hr>
+                            <pre>Price:(${item.qtn}Items)        ${item.price * item.qtn}</pre>
+                            <pre>Discount              -${Math.round(item.price * item.qtn * (item.discountPercentage / 100))} </pre>
+                            <pre>Delivery Charges:     Free</pre><hr>
+                            <h2><pre>Total Amount:  ₹${Math.round(item.price * item.qtn - item.price * item.qtn * (item.discountPercentage / 100))}</pre></h2>
+                        </div>
+                    </div>`;
+            });
+
+            // Set the HTML content of catContainer
+            catContainer.innerHTML += items.join('');
+        }
+       
+
+        // Function to increment quantity
+        window.incrementQuantity = function (index) {
+            let dataLS = JSON.parse(localStorage.getItem('dataCart'));
+            
             // Increment quantity for the selected item
             dataLS[index].qtn += 1;
 
@@ -284,6 +409,7 @@
         }
     }
 </script>
+
 
     
    

@@ -51,25 +51,7 @@ function disImg(detailProd){
     let Title=`<h1>${detailProd.title}<h1>`
     side2.innerHTML=Title
 
-        // console.log(products[0])
-        let items = detailProd.map((item) => {
-            let elemItem = `
-            <div class="item-details">
-                <h2>Title:${item.title}</h2>
-                <div>Rating:${item.rating}</div><br><br>
-                <div class="item-desc">Description:${item.description}</div>
-                <div>
-                    Items In Stock:${item.stock}
-                </div>
-            </div>
-            <div class="item-price"><h1>₹${item.price}</h1>
-            <h3 class="item-desc">Discount:${item.discountPercentage}%</h3>
-            </div>
-            
-        </div>`
-            return elemItem
-        })
-        side.innerHTML = items.join('')
+        // console.log(products[0]
     }
 
    
@@ -91,6 +73,11 @@ async function addToCart(){
 
     let dataLS = JSON.parse(localStorage.getItem('dataCart')) || []
     dataLS.push(detailProd)
+  
+            
+    dataLS.map((e,index)=>{
+        dataLS[index].qtn = 1;
+    })
 
     localStorage.setItem("dataCart", JSON.stringify(dataLS))
 
@@ -119,16 +106,21 @@ function addReview() {
     }
 
     let reviews = getReviewsFromStorage();
-    const newReview = {
-        id: generateUniqueId(),
+    const newReview = { 
+        productid:idProd,
+        // id: generateUniqueId(),
         name: localStorage.getItem('name'),
         text: newReviewText,
         timestamp: new Date().toLocaleString(),
     };
     reviews.push(newReview);
     saveReviewsToStorage(reviews);
-
     displayReviews();
+      if(newReview.productid==idProd){
+        console.log(newReview.productid);
+        console.log(idProd);
+        getReviewsFromStorage()
+      }
     document.getElementById('new-review').value = '';
 }
 
