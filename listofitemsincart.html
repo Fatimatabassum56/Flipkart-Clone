@@ -150,24 +150,47 @@
 <!-- Container to display the items -->
 <div id="catContainer"></div>
 
-<script>
-    
+           
+          <script>
     window.onload = function () {
         let catContainer = document.getElementById('catContainer');
-        
+         // Function to update local storage and re-render the items
+         function updateLocalStorage(data) {
+           
+           // Example data stored in local storage
+  let dataLS = JSON.parse(localStorage.getItem('dataCart')) || [];
+  
+  // New key and value to be added
+  let newKey = 'qtn';
+  let newValue = 1;
+  
+  // Iterate through each object in the array
+  dataLS.forEach(obj => {
+      // Add the new key-value pair to each object
+      obj[newKey] = newValue;
+  });
+  
+  // Update the local storage with the modified data
+  localStorage.setItem('dataCart', JSON.stringify(data));
+  
+  // Log the updated data
+  console.log(dataLS);
+  
+  
+  
+              renderItems(data);
+          }
+
 
         // Function to update local storage and re-render the items
-        function updateLocalStorage(data) {
-            localStorage.setItem('dataCart', JSON.stringify(data));
-            renderItems(data);
-        }
-        let qtn=1;
+      
+
         // Function to render items
         function renderItems(data) {
             catContainer.innerHTML = ''; // Clear existing content
-             
+
             // Map the data to HTML elements
-            let items = data.map((item) => {
+            let items = data.map((item, index) => {
                 return `
                     <div class="items-card">
                         <div class="item-img">
@@ -175,71 +198,63 @@
                         </div>
                         <div class="item-details">
                             <h3>${item.title}</h3>
-                            
-                            
+
                             <div class="price">
-                            <h1>₹${Math.round(item.price*qtn-item.price*qtn*(item.discountPercentage/100))}</h1>
-                            <h3><strike>${item.price * qtn}</strike></h3>
-                            <div>off ${item.discountPercentage}%</div>
-                            
+                                <h1>₹${Math.round(item.price * item.qtn - item.price * item.qtn * (item.discountPercentage / 100))}</h1>
+                                <h3><strike>${item.price * item.qtn}</strike></h3>
+                                <div>off ${item.discountPercentage}%</div>
                             </div>
 
                             <div>Rating:${item.rating}</div>
-                            
                         </div>
                         <div class="item-actions">
-                            <button class="btn1" onclick="incrementQuantity(${item.id})">+</button>
-                            <div class="qtn"> ${qtn}</div>
-                            <button class="btn1" onclick="decrementQuantity(${item.id})">-</button></div>
-                            <div class="action-buttons">
+                            <button class="btn1" onclick="incrementQuantity(${index})">+</button>
+                            <div class="qtn"> ${item.qtn}</div>
+                            <button class="btn1" onclick="decrementQuantity(${index})">-</button>
+                        </div>
+                        <div class="action-buttons">
                             <button class="btn2" onclick="removeFromCart(${item.id})">Remove</button>
                             <button class="btn" onclick="buyNow(${item.id})">Buy Now</button>
                         </div>
-                        <div class="priceDetails"> 
+                        <div class="priceDetails">
                             <h1>Price Details</h1><hr>
-                            <pre>Price:(${qtn}Items)        ${item.price*qtn}</pre>
-                            <pre>DisCount              -${Math.round(item.price*qtn*(item.discountPercentage/100))} </pre>
+                            <pre>Price:(${item.qtn}Items)        ${item.price * item.qtn}</pre>
+                            <pre>Discount              -${Math.round(item.price * item.qtn * (item.discountPercentage / 100))} </pre>
                             <pre>Delivery Charges:     Free</pre><hr>
-                           <h2> <pre>Total Amount:  ₹${Math.round(item.price*qtn-item.price*qtn*(item.discountPercentage/100))}</pre></h2>
-                            </div>
-                            </div>
-                            
-
+                            <h2><pre>Total Amount:  ₹${Math.round(item.price * item.qtn - item.price * item.qtn * (item.discountPercentage / 100))}</pre></h2>
+                        </div>
                     </div>`;
             });
 
             // Set the HTML content of catContainer
             catContainer.innerHTML += items.join('');
         }
-    
 
         // Function to increment quantity
-        window.incrementQuantity = function (itemId) {
-        
+        window.incrementQuantity = function (index) {
             let dataLS = JSON.parse(localStorage.getItem('dataCart'));
-            let index = dataLS.findIndex(item => item.id === itemId);
 
-            if (index !== -1) {
-                qtn += 1;
-                updateLocalStorage(dataLS);
-            }
+            // Increment quantity for the selected item
+            dataLS[index].qtn += 1;
+
+            // Update local storage and re-render
+            updateLocalStorage(dataLS);
         }
 
         // Function to decrement quantity or remove if quantity becomes zero
-        window.decrementQuantity = function (itemId) {
+        window.decrementQuantity = function (index) {
             let dataLS = JSON.parse(localStorage.getItem('dataCart'));
-            let index = dataLS.findIndex(item => item.id === itemId);
 
-            if (index !== -1) {
-                qtn-= 1;
+            // Decrement quantity for the selected item
+            dataLS[index].qtn -= 1;
 
-                // Remove item if quantity becomes zero
-                if (qtn=== 0) {
-                    dataLS.splice(index, 1);
-                }
-
-                updateLocalStorage(dataLS);
+            // Remove item if quantity becomes zero
+            if (dataLS[index].qtn === 0) {
+                dataLS.splice(index, 1);
             }
+
+            // Update local storage and re-render
+            updateLocalStorage(dataLS);
         }
 
         // Function to remove item from cart
@@ -270,5 +285,7 @@
     }
 </script>
 
+    
+   
 </body>
 </html>
