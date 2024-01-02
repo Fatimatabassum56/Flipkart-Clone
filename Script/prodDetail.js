@@ -124,6 +124,10 @@ document.addEventListener('DOMContentLoaded', function () {
 //       getReviewsFromStorage()
 //     document.getElementById('new-review').value = '';
 // }
+let getUsersdata = JSON.parse(localStorage.getItem("usersdata")) || [];
+ 
+console.log(getUsersdata[0].username);
+
 function addReview() {
     let newReviewText = document.getElementById('new-review').value;
     if (newReviewText.trim() === '') {
@@ -134,7 +138,7 @@ function addReview() {
     let reviews = getReviewsFromStorage();
     const newReview = { 
         productid: idProd, // Include the productid
-        name: localStorage.getItem('name'),
+        name: getUsersdata[getUsersdata.length-1].username,
         text: newReviewText,
         timestamp: new Date().toLocaleString(),
     };
