@@ -361,6 +361,11 @@ window.incrementQuantity = function (index) {
             
             // Increment quantity for the selected item
             dataLS[index].qtn += 1;
+            if(dataLS[index].qtn>=dataLS[index].stock){
+                alert("No more items left")
+                
+            
+            }
 
             // Update local storage and re-render
             updateLocalStorage(dataLS);

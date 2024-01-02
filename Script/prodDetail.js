@@ -98,6 +98,32 @@ document.addEventListener('DOMContentLoaded', function () {
     displayReviews();
 });
 
+// function addReview() {
+//     let newReviewText = document.getElementById('new-review').value;
+//     if (newReviewText.trim() === '') {
+//         alert('Please enter a review before submitting.');
+//         return;
+//     }
+
+//     let reviews = getReviewsFromStorage();
+//     const newReview = { 
+//         productid:idProd,
+//         // id: generateUniqueId(),
+//         name: localStorage.getItem('name'),
+//         text: newReviewText,
+//         timestamp: new Date().toLocaleString(),
+//     };
+//     reviews.push(newReview);
+//     saveReviewsToStorage(reviews);
+//     displayReviews();
+//     //   if(newReview.productid==idProd){
+//     //     console.log(newReview.productid);
+//     //     console.log(idProd);
+       
+//     //   }
+//       getReviewsFromStorage()
+//     document.getElementById('new-review').value = '';
+// }
 function addReview() {
     let newReviewText = document.getElementById('new-review').value;
     if (newReviewText.trim() === '') {
@@ -107,8 +133,7 @@ function addReview() {
 
     let reviews = getReviewsFromStorage();
     const newReview = { 
-        productid:idProd,
-        // id: generateUniqueId(),
+        productid: idProd, // Include the productid
         name: localStorage.getItem('name'),
         text: newReviewText,
         timestamp: new Date().toLocaleString(),
@@ -116,13 +141,12 @@ function addReview() {
     reviews.push(newReview);
     saveReviewsToStorage(reviews);
     displayReviews();
-      if(newReview.productid==idProd){
-        console.log(newReview.productid);
-        console.log(idProd);
-        getReviewsFromStorage()
-      }
     document.getElementById('new-review').value = '';
 }
+
+
+
+
 
 function editReview(index) {
     let reviews = getReviewsFromStorage();
@@ -219,10 +243,18 @@ function displayReviews() {
     }
 }
 
+// function getReviewsFromStorage() {
+//     let reviews = JSON.parse(localStorage.getItem('productReviews')) || [];
+//     if(newReview.productid==idProd){
+//     return reviews;
+//     }
+// }
+
 function getReviewsFromStorage() {
     let reviews = JSON.parse(localStorage.getItem('productReviews')) || [];
-    return reviews;
+    return reviews.filter(review => review.productid === idProd);
 }
+
 
 function saveReviewsToStorage(reviews) {
     localStorage.setItem('productReviews', JSON.stringify(reviews));
